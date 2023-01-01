@@ -1,5 +1,5 @@
 # dym2149-firmware-ph
-Very basic firmware for [Dual YM2149 synth board](https://github.com/bderleta/dym2149-board)
+Very basic firmware for [Dual YM2149 synth board](https://github.com/bderleta/dym2149-board), developed with Microchip Studio 7.
 
 Listens on UART (500000bps, 1 stop bit, no parity) for 2 byte packets.
 Every 2 byte packet contains:
