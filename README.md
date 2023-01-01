@@ -14,3 +14,4 @@ Higher 4 bits of address byte indicate a device address:
 Returns `ACK` byte for every byte received, or `NAK`, if the buffer is full.
 
 Contains some stubs for board peripherals (timers, shift register, etc.), but they are not being used at the moment.
+Sample feeder is [here](https://github.com/bderleta/dym2149-ym-streamer).
