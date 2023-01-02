@@ -21,23 +21,43 @@
 #define DDRA_INIT 0b11111111
 #define PORTA_INIT 0b00000000
 
-/* Port D config */
+/* Port D config 
+	In revision 2 YM1_BC1 and YM1_SEL are swapped, to put YM1_SEL to pin OC1B, allowing to switch YM1 ~{SEL} pin from Timer1 compare output 
+	YM2_SEL is already on OC1A in both revisions.
+*/
+#ifdef REV2
+#define YM1_SEL_BIT (1 << 4) // PD4
+#define YM1_BC1_BIT (1 << 2) // PD2
+#else
 #define YM1_SEL_BIT (1 << 2) // PD2
-#define YM1_BDIR_BIT (1 << 3) // PD3
 #define YM1_BC1_BIT (1 << 4) // PD4
+#endif
+#define YM1_BDIR_BIT (1 << 3) // PD3
 #define YM2_SEL_BIT (1 << 5) // PD5
-#define YM2_BDIR_BIT (1 << 6) // PD6
 #define YM2_BC1_BIT (1 << 7) // PD7
+#define YM2_BDIR_BIT (1 << 6) // PD6
 // BC2 = 1 perm. for AY-3-8913 / YM
 /* PD0 as input (USART), rest as output, SEL high */
 #define DDRD_INIT 0b11111110
+#ifdef REV2
+#define PORTD_INIT 0b00110000
+#else
 #define PORTD_INIT 0b00100100
+#endif
 
-/* Port/Direction for 595 */
+/* Port/Direction for 595 
+	In revision 2 U595_SRCLR and U595_RCLK are swapped, to put RCLK to pin OC0, allowing to strobe RCLK pin from Timer0 compare output
+*/
 #define U595_SER (1 << 5) // PB5 MOSI
-#define U595_RCLK (1 << 0) // PB0
-#define U595_SRCLK (1 << 7) // PB7 SCK
+#ifdef REV2
+#define U595_SRCLR (1 << 0) // PB0
+#define U595_RCLK (1 << 3) // PB3
+#else
 #define U595_SRCLR (1 << 3) // PB3
+#define U595_RCLK (1 << 0) // PB0
+#endif
+
+#define U595_SRCLK (1 << 7) // PB7 SCK
 #define U595_OE (1 << 1) // PB1 595_~{OE}
 #define u595_rclk_high() (PORTB |= U595_RCLK)
 #define u595_rclk_low() (PORTB &= ~U595_RCLK)
@@ -47,7 +67,6 @@
 #define DDRB_INIT 0b10111011
 /* ~{CS}/595_~{OE} = 1 (inactive), 595_SRCLR = 0 (active), MOSI/MISO/SCK/595_RCLK = 0 (inactive/no pullup) */
 #define PORTB_INIT 0b00010010
-
 /* SCL/SDA, JTAG, TOSC all input */
 #define DDRC_INIT 0b00000011
 #define PORTC_INIT 0b00000000
